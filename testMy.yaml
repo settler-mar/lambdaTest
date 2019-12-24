@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: >-
+  An Amazon S3 trigger that retrieves metadata for the object that has been
+  updated.
+Resources:
+  testMy:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: .
+      Description: >-
+        An Amazon S3 trigger that retrieves metadata for the object that has
+        been updated.
+      MemorySize: 128
+      Timeout: 30
+      Role: 'arn:aws:iam::892614325193:role/service-role/test-role-nu5mn93p'
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /testMy
+            Method: ANY
+      Environment:
+        Variables:
+          S3_KEY: csv/test_project_addresses.csv
+          S3_BUCKET: my.store.test
+          INSER_COUNT: '2000'
+          TEST_UNIQ_IN_BD: '0'
+          RDS_TABLE: addr
+          RDS_HOSTNAME: database-1.cyoj9eu9ws16.us-east-2.rds.amazonaws.com
+          RDS_USERNAME: admin
+          TRUNCATE_DB: '0'
+          RDS_PASSWORD: '12345678'
+          RDS_DATABASE: mysqllab
+          RDS_PORT: '3306'
+      Tags:
+        'lambda-console:blueprint': s3-get-object
